@@ -137,6 +137,7 @@ public class TypeChecker extends MiniJavaBaseListener {
         this.types.push(new Type(Kind.INT));
     }
 
+    //STEFHERE
     @Override
     public void exitExpBinOp(MiniJavaParser.ExpBinOpContext ctx) {
         Type rhs = this.types.pop();
@@ -146,6 +147,7 @@ public class TypeChecker extends MiniJavaBaseListener {
         switch (op) {
             // AND is the only operator that takes booleans, not ints.
             case "&&":
+            case "||":
                 this.check(lhs.isBoolean(), ctx, "Expected boolean as 1st argument to &&; actual type: " + lhs);
                 this.check(rhs.isBoolean(), ctx, "Expected boolean as 2nd argument to &&; actual type: " + rhs);
                 break;
@@ -159,6 +161,7 @@ public class TypeChecker extends MiniJavaBaseListener {
             // Only AND and less-than return booleans;
             // all other operations return ints.
             case "&&":
+            case "||":
             case "<":
                 this.types.push(new Type(Kind.BOOLEAN));
                 break;

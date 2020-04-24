@@ -48,16 +48,16 @@ public class Babycino {
             ParseTree tree = parse(input);
             SymbolTable sym = semantic(tree);
             List<TACBlock> tac = generateTAC(tree, sym);
-            //System.out.println("UNOPTIMISED INTERMEDIATE CODE:");
-            //dumpTAC(tac);
+            System.out.println("UNOPTIMISED INTERMEDIATE CODE:");
+            dumpTAC(tac);
             tac = optimiseTAC(tac);
             //System.out.println("OPTIMISED INTERMEDIATE CODE:");
             //dumpTAC(tac);
-            generateCCode(tac, output);
+            generateCCode(tac, output);/**/
         }
 
         catch (CompilerException e) {
-            System.err.println("Exiting due to earlier error.");
+            System.err.println("Exiting due to earlier error."+e.getMessage());
             System.exit(1);
         }
     }

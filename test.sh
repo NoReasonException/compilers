@@ -3,10 +3,10 @@
 # set -e makes the script exit automatically if any line fails.
 set -e
 
-#echo "Running the build script."
-#./build.sh
-#echo "Compiling sample factorial program with babycino."
-#./babycino.sh progs/appel/Factorial.java factorial.c
+echo "Running the build script."
+./build.sh
+echo "Compiling sample factorial program with babycino."
+./babycino.sh progs/appel/Factorial.java factorial.c
 echo "Compiling resulting source with cc."
 cc -o factorial.o factorial.c
 echo "Running factorial program."
