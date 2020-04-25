@@ -233,7 +233,6 @@ public class TACGenerator extends MiniJavaBaseVisitor<TACBlock> {
             String end = this.genlab();  //Generate labels
             String res = this.genreg();  //OMG here we assign the registers , for every
                                             //operation we add a new register , just as lecture notes!
-
             result.addAll(expr1);
             result.add(TACOp.mov(res, expr1.getResult())); //jump if 1 else continue
             result.add(TACOp.jz(res, end));
@@ -244,7 +243,7 @@ public class TACGenerator extends MiniJavaBaseVisitor<TACBlock> {
             result.setResult(res);            
             return result;
         }
-        else if(op.equals("||")){
+        else if(    op.equals("||")){
             // || should short-circuit.
             String expr1fail = this.genlab();  //Generate labels
             String expr2fail = this.genlab();  //Generate labels
@@ -253,7 +252,6 @@ public class TACGenerator extends MiniJavaBaseVisitor<TACBlock> {
             String mid = this.genreg();  //
             String zero = this.genreg();  //
             String finalresult = this.genreg();  //
-
             result.addAll(expr1);
             result.addAll(expr2);
             result.add(TACOp.mov(curr, expr1.getResult()));
@@ -266,20 +264,14 @@ public class TACGenerator extends MiniJavaBaseVisitor<TACBlock> {
                 result.add(TACOp.jz(curr, expr2fail));//short
                 result.add(TACOp.mov(finalresult, expr1.getResult()));//both are 1 , so we dont care
                 result.add(TACOp.jz(zero, end));//short
-
-
-
             result.add(TACOp.label(expr2fail));
             result.add(TACOp.mov(finalresult, expr2.getResult()));//2 failed
             result.add(TACOp.jz(zero, end));//short
-
             result.add(TACOp.label(expr1fail));
             result.add(TACOp.mov(finalresult, expr1.getResult()));//1 failed
             result.add(TACOp.jz(zero, end));//short
-
             result.add(TACOp.label(end));
             result.setResult(finalresult);
-
             return result;
         }
         //here is like a branch , the op.equals returns previously , here we support all other op's
