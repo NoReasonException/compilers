@@ -1,1 +1,0 @@
-contrib\tcc\tcc.exe %*

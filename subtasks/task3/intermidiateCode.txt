@@ -1,0 +1,71 @@
+UNOPTIMISED INTERMEDIATE CODE:
+INIT:
+    r1 = 1
+    r2 = 0
+    vg0 = malloc r2
+    r3 = vg0
+    r2 = 0
+    vg1 = malloc r2
+    r3 = vg1
+    r2 = 1
+    vg2 = malloc r2
+    r3 = vg2
+    r4 = VeryBasicJava.test
+    [r3] = r4
+    r3 = r3 offset r1
+    return
+MAIN:
+    r1 = 1
+    r2 = malloc r1
+    [r2] = vg2
+    r3 = [r2]
+    r4 = 0
+    r5 = r3 offset r4
+    r6 = [r5]
+    param r2
+    call r6
+    r7 = r0
+    write r7
+    return
+VeryBasicJava.test:
+    r1 = 1
+    r3 = r1
+    r4 = -1
+    r5 = 0
+    r3 = r3 + r4
+    if (r3=0) jmp VeryBasicJava.test@0
+    r2 = 1
+    r3 = r2
+    r3 = r3 + r4
+    if (r3=0) jmp VeryBasicJava.test@1
+    r6 = r1
+    if (r5=0) jmp VeryBasicJava.test@2
+VeryBasicJava.test@1:
+    r6 = r2
+    if (r5=0) jmp VeryBasicJava.test@2
+VeryBasicJava.test@0:
+    r6 = r1
+    if (r5=0) jmp VeryBasicJava.test@2
+VeryBasicJava.test@2:
+    r8 = r6
+    r9 = -1
+    r10 = 0
+    r8 = r8 + r9
+    if (r8=0) jmp VeryBasicJava.test@3
+    r7 = 0
+    r8 = r7
+    r8 = r8 + r9
+    if (r8=0) jmp VeryBasicJava.test@4
+    r11 = r6
+    if (r10=0) jmp VeryBasicJava.test@5
+VeryBasicJava.test@4:
+    r11 = r7
+    if (r10=0) jmp VeryBasicJava.test@5
+VeryBasicJava.test@3:
+    r11 = r6
+    if (r10=0) jmp VeryBasicJava.test@5
+VeryBasicJava.test@5:
+    vl1 = r11
+    r12 = 1
+    r0 = r12
+    return

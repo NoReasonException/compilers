@@ -1,1 +1,0 @@
-java -cp ".;contrib\antlr\antlr-4.8-complete.jar;%CLASSPATH%" babycino.Babycino %*

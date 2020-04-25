@@ -245,31 +245,42 @@ public class TACGenerator extends MiniJavaBaseVisitor<TACBlock> {
         }
         else if(    op.equals("||")){
             // || should short-circuit.
-            String expr1fail = this.genlab();  //Generate labels
-            String expr2fail = this.genlab();  //Generate labels
-            String end = this.genlab();  //Generate labels
-            String curr = this.genreg();  //OMG here we assign the registers , for every
-            String mid = this.genreg();  //
-            String zero = this.genreg();  //
-            String finalresult = this.genreg();  //
-            result.addAll(expr1);
-            result.addAll(expr2);
+            String expr1fail = this.genlab();               //jump label : short-circut if expression1 is true
+            String expr2fail = this.genlab();               //jump label : short-circut if expression2 is true
+            String end = this.genlab();                     //the final label
+            String curr = this.genreg();                    //A temporary register for our convenience
+            String mid = this.genreg();                     //we subtract -1 in two places , so we load this register with -1
+            String zero = this.genreg();                    //this register is always zero ()
+            String finalresult = this.genreg();             //this register will hold the final value
+            result.addAll(expr1);                           //add the left expression in
+
+
+            //evaluate the first expression , if is true then short circut(jump)
             result.add(TACOp.mov(curr, expr1.getResult()));
             result.add(TACOp.immed(mid, -1));
             result.add(TACOp.immed(zero, 0));
             result.add(TACOp.add(curr,curr,mid));
             result.add(TACOp.jz(curr, expr1fail));//short
-                result.add(TACOp.mov(curr, expr2.getResult()));  //expr1 is 1
-                result.add(TACOp.add(curr,curr,mid));
-                result.add(TACOp.jz(curr, expr2fail));//short
-                result.add(TACOp.mov(finalresult, expr1.getResult()));//both are 1 , so we dont care
-                result.add(TACOp.jz(zero, end));//short
+
+            //do the same at the second expression
+            result.addAll(expr2);
+            result.add(TACOp.mov(curr, expr2.getResult()));
+            result.add(TACOp.add(curr,curr,mid));
+            result.add(TACOp.jz(curr, expr2fail));//short
+
+            //both are false case
+            result.add(TACOp.mov(finalresult, expr1.getResult()));//both false
+            result.add(TACOp.jz(zero, end));//to end
+
+            //second is true  case
             result.add(TACOp.label(expr2fail));
             result.add(TACOp.mov(finalresult, expr2.getResult()));//2 failed
             result.add(TACOp.jz(zero, end));//short
+            //first is true case
             result.add(TACOp.label(expr1fail));
             result.add(TACOp.mov(finalresult, expr1.getResult()));//1 failed
-            result.add(TACOp.jz(zero, end));//short
+            result.add(TACOp.jz(zero, end));
+            //End
             result.add(TACOp.label(end));
             result.setResult(finalresult);
             return result;
